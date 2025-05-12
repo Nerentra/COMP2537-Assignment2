@@ -1,5 +1,5 @@
-<%- include("templates/header", { title: "Members"}) %>
-    <p class="mt-3">Hello, <%- name %>.</p>
+<%- include("templates/header", { title: "Members", user }) %>
+    <p class="mt-3">Hello, <%- user.name %>.</p>
     <div class="row g-4">
       <div class="col-md-4 col-12">
         <img src="basketballCat.jpg" class="img-fluid rounded shadow" alt="Basketball Cat"><br />

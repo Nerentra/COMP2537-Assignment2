@@ -52,13 +52,13 @@ const mongoStore = MongoStore.create({
 });
 
 function loginUser(req, user) {
-    req.session.authenticated = true;
-    req.session.name = user.name;
-    req.session.admin = user.admin ?? false;
+    req.session.user = {};
+    req.session.user.name = user.name;
+    req.session.user.admin = user.admin ?? false;
 }
 
 function authenticatedMiddleware(req, res, next) {
-    if (req.session.authenticated === true) {
+    if (req.session.user !== undefined) {
         next();
     }
     else {
@@ -67,10 +67,13 @@ function authenticatedMiddleware(req, res, next) {
 }
 
 function adminMiddleware(req, res, next) {
-    if (req.session.admin === true) {
-        next();
-    } else if (req.session.authenticated === true) {
-        res.redirect("/members");
+    if (req.session.user !== undefined) {
+        if(req.session.user.admin === true) {
+            next();
+        }
+        else {
+            res.redirect("/members");
+        }
     }
     else {
         res.status(403).render("403");
@@ -94,11 +97,11 @@ app.use(session({
 }))
 
 app.get("/", (req, res) => {
-    res.render("index", { name: req.session.name })
+    res.render("index", { user: req.session.user })
 })
 
 app.get("/signup", (req, res) => {
-    res.render("signup", { name: req.session.name });
+    res.render("signup", { user: req.session.user });
 })
 
 app.post("/signupSubmit", async (req, res) => {
@@ -114,14 +117,14 @@ app.post("/signupSubmit", async (req, res) => {
         password,
     });
     if (validationResult.error !== undefined) {
-        res.render("signupSubmit", { errorText: validationResult.error });
+        res.render("signupSubmit", { errorText: validationResult.error, user: req.session.user });
         return;
     }
     const user = await mongodbDatabase.collection("1537users").findOne({
         email,
     });
     if (user !== null) {
-        res.render("signupSubmit", { errorText: "User already exists with that email." });
+        res.render("signupSubmit", { errorText: "User already exists with that email.", user: req.session.user });
         return;
     }
     const passwordHash = await bcrypt.hash(req.body.password, saltRounds);
@@ -144,7 +147,7 @@ app.post("/signupSubmit", async (req, res) => {
 })
 
 app.get("/login", (req, res) => {
-    res.render("login", { name: req.session.name });
+    res.render("login", { user: req.session.user });
 })
 
 app.post("/loginSubmit", async (req, res) => {
@@ -158,19 +161,19 @@ app.post("/loginSubmit", async (req, res) => {
         password,
     });
     if (validationResult.error !== undefined) {
-        res.render("loginSubmit", { errorText: validationResult.error });
+        res.render("loginSubmit", { errorText: validationResult.error, user: req.session.user });
         return;
     }
     const user = await mongodbDatabase.collection("1537users").findOne({
         email,
     });
     if (user === null) {
-        res.render("loginSubmit", { errorText: "Couldn't find user with that email." });
+        res.render("loginSubmit", { errorText: "Couldn't find user with that email.", user: req.session.user });
         return;
     }
     const passwordCorrect = await bcrypt.compare(req.body.password, user.passwordHash);
     if(!passwordCorrect) {
-        res.render("loginSubmit", { errorText: "Incorrect password." });
+        res.render("loginSubmit", { errorText: "Incorrect password.", user: req.session.user });
         return;
     }
     loginUser(req, user);
@@ -178,11 +181,11 @@ app.post("/loginSubmit", async (req, res) => {
 })
 
 app.get("/members", authenticatedMiddleware, (req, res) => {
-    res.render("members", { name: req.session.name });
+    res.render("members", { user: req.session.user });
 })
 
 app.get("/logout", (req, res) => {
-    req.session.destroy();
+    req.session.user = undefined;
     res.redirect("/");
 })
 
@@ -191,7 +194,7 @@ app.get("/admin", adminMiddleware, async (req, res) => {
         .collection("1537users")
         .find()
         .toArray();
-    res.render("admin", { name: req.session.name, users });
+    res.render("admin", { user: req.session.user, users });
 })
 
 app.post("/admin/promoteUser/:email", adminMiddleware, async (req, res) => {
@@ -218,7 +221,7 @@ app.post("/admin/demoteUser/:email", adminMiddleware, async (req, res) => {
 
 // Serve a 404 page for any other routes
 app.use((req, res) => {
-    res.status(404).render("404", { name: req.session.name });
+    res.status(404).render("404", { user: req.session.user });
 });
 
 app.listen(port, () => {
