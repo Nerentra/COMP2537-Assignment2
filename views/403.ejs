@@ -1,6 +1,5 @@
-<%- include("templates/header") %>
-  <title>403</title>
-</head>
-<body>
-  Not Authorized - 403
+<%- include("templates/header", { title: "403"}) %>
+  <div class="alert alert-danger mt-5" role="alert">
+    Not Authorized - 403
+  </div>
 <%- include("templates/footer") %>

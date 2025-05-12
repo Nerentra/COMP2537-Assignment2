@@ -1,3 +1,6 @@
-<%= user.name %> (<% if (user.admin) { %>admin<% } else { %>user<% }  %>)
-<input type="submit" formaction="/admin/promoteUser/<%- user.email %>" value="Promote to Admin" />
-<input type="submit" formaction="/admin/demoteUser/<%- user.email %>" value="Demote to User" />
+<%= user.name %> (<% if (user.admin) { %>Admin<% } else { %>User<% }  %>)
+<% if (user.admin) { %>
+    <button type="submit" formaction="/admin/demoteUser/<%- user.email %>" class="btn btn-warning btn-sm ms-2">Demote to User</button>
+<% } else { %>
+    <button type="submit" formaction="/admin/promoteUser/<%- user.email %>" class="btn btn-danger btn-sm ms-2">Promote to Admin</button>
+<% }  %>

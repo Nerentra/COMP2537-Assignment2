@@ -1,8 +1,6 @@
-<%- include("templates/header") %>
-  <title>Login Submit</title>
-</head>
-<body>
-  <%- errorText %><br />
-  <br />
-  <a href="/login">Try again</a>
+<%- include("templates/header", { title: "Login"}) %>
+  <div class="alert alert-danger mt-3" role="alert">
+    <%- errorText %>
+  </div>
+  <a href="/login" class="btn btn-link">Try again</a>
 <%- include("templates/footer") %>

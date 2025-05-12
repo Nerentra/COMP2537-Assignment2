@@ -97,8 +97,8 @@ app.get("/", (req, res) => {
     res.render("index", { name: req.session.name })
 })
 
-app.get("/signup", (_, res) => {
-    res.render("signup");
+app.get("/signup", (req, res) => {
+    res.render("signup", { name: req.session.name });
 })
 
 app.post("/signupSubmit", async (req, res) => {
@@ -143,8 +143,8 @@ app.post("/signupSubmit", async (req, res) => {
         });
 })
 
-app.get("/login", (_, res) => {
-    res.render("login");
+app.get("/login", (req, res) => {
+    res.render("login", { name: req.session.name });
 })
 
 app.post("/loginSubmit", async (req, res) => {
@@ -191,7 +191,7 @@ app.get("/admin", adminMiddleware, async (req, res) => {
         .collection("1537users")
         .find()
         .toArray();
-    res.render("admin", { users });
+    res.render("admin", { name: req.session.name, users });
 })
 
 app.post("/admin/promoteUser/:email", adminMiddleware, async (req, res) => {
@@ -217,8 +217,8 @@ app.post("/admin/demoteUser/:email", adminMiddleware, async (req, res) => {
 })
 
 // Serve a 404 page for any other routes
-app.use((_, res) => {
-    res.status(404).render("404");
+app.use((req, res) => {
+    res.status(404).render("404", { name: req.session.name });
 });
 
 app.listen(port, () => {

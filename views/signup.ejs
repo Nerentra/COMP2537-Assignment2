@@ -1,12 +1,15 @@
-<%- include("templates/header") %>
-  <title>Signup</title>
-</head>
-<body>
-  create user
-  <form action="/signupSubmit" method="POST">
-      <input name="name" type="text" placeholder="name" /><br />
-      <input name="email" type="email" placeholder="email" /><br />
-      <input name="password" type="password" placeholder="password" /><br />
-      <button>Submit</button>
+<%- include("templates/header", { title: "Signup"}) %>
+  Sign Up
+  <form action="/signupSubmit" method="POST" class="mt-3">
+      <div class="mb-3">
+        <input name="name" type="text" class="form-control" placeholder="Name" required />
+      </div>
+      <div class="mb-3">
+        <input name="email" type="email" class="form-control" placeholder="Email" required />
+      </div>
+      <div class="mb-3">
+        <input name="password" type="password" class="form-control" placeholder="Password" required />
+      </div>
+      <button class="btn btn-primary w-100">Sign Up</button>
   </form>
 <%- include("templates/footer") %>

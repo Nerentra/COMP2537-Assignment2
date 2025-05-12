@@ -1,20 +1,15 @@
-<%- include("templates/header") %>
-  <title>Home</title>
-</head>
-<body>
-    Hello, <%- name %>.<br />
-    <div class="container">
-      <div class="row g-4">
-        <div class="col-md-4 col-12">
-          <img src="basketballCat.jpg" class="img-fluid" alt="Basketball Cat"><br />
-        </div>
-        <div class="col-md-4 col-12">
-          <img src="catfish.webp" class="img-fluid" alt="Catfish"><br />
-        </div>
-        <div class="col-md-4 col-12">
-          <img src="floppa.webp" class="img-fluid" alt="Floppa"><br />
-        </div>
+<%- include("templates/header", { title: "Members"}) %>
+    <p class="mt-3">Hello, <%- name %>.</p>
+    <div class="row g-4">
+      <div class="col-md-4 col-12">
+        <img src="basketballCat.jpg" class="img-fluid rounded shadow" alt="Basketball Cat"><br />
+      </div>
+      <div class="col-md-4 col-12">
+        <img src="catfish.webp" class="img-fluid rounded shadow" alt="Catfish"><br />
+      </div>
+      <div class="col-md-4 col-12">
+        <img src="floppa.webp" class="img-fluid rounded shadow" alt="Floppa"><br />
       </div>
     </div>
-    <a href="/logout"><button>Sign out</button></a><br />
+    <a href="/logout" class="btn btn-secondary mt-4">Sign out</a><br />
 <%- include("templates/footer") %>
