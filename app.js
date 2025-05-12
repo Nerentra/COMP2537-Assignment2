@@ -9,7 +9,6 @@ import "dotenv/config"; // Load .env file
 const app = express();
 const port = process.env.PORT ?? "3000";
 const saltRounds = 12;
-const cats = ["basketballCat.jpg", "catfish.webp", "floppa.webp"];
 
 // Verify that the MONGODB environment variables are defined
 if (process.env.MONGODB_USERNAME === undefined) {
@@ -179,11 +178,7 @@ app.post("/loginSubmit", async (req, res) => {
 })
 
 app.get("/members", authenticatedMiddleware, (req, res) => {
-    const catIndex = Math.floor(Math.random() * cats.length);
-    res.render("members", {
-        name: req.session.name,
-        imgLink: cats[catIndex],
-    });
+    res.render("members", { name: req.session.name });
 })
 
 app.get("/logout", (req, res) => {

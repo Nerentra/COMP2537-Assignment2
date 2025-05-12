@@ -1,8 +1,20 @@
-<%- include("header") %>
+<%- include("templates/header") %>
   <title>Home</title>
 </head>
 <body>
     Hello, <%- name %>.<br />
-    <img src="<%- imgLink %>"><br />
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4 col-12">
+          <img src="basketballCat.jpg" class="img-fluid" alt="Basketball Cat"><br />
+        </div>
+        <div class="col-md-4 col-12">
+          <img src="catfish.webp" class="img-fluid" alt="Catfish"><br />
+        </div>
+        <div class="col-md-4 col-12">
+          <img src="floppa.webp" class="img-fluid" alt="Floppa"><br />
+        </div>
+      </div>
+    </div>
     <a href="/logout"><button>Sign out</button></a><br />
-<%- include("footer") %>
+<%- include("templates/footer") %>
