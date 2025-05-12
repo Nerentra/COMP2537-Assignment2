@@ -185,7 +185,7 @@ app.get("/members", authenticatedMiddleware, (req, res) => {
 })
 
 app.get("/logout", (req, res) => {
-    req.session.user = undefined;
+    req.session.destroy();
     res.redirect("/");
 })
 
