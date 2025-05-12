@@ -72,11 +72,11 @@ function adminMiddleware(req, res, next) {
             next();
         }
         else {
-            res.redirect("/members");
+            res.status(403).render("403", { user: req.session.user });
         }
     }
     else {
-        res.status(403).render("403");
+        res.redirect("/login");
     }
 }
 
