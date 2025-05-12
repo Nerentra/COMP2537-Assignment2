@@ -1,0 +1,3 @@
+<%= user.name %> (<% if (user.admin) { %>admin<% } else { %>user<% }  %>)
+<input type="submit" formaction="/admin/promoteUser/<%- user.email %>" value="Promote to Admin" />
+<input type="submit" formaction="/admin/demoteUser/<%- user.email %>" value="Demote to User" />

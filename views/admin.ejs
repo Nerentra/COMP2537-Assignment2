@@ -1,0 +1,11 @@
+<%- include("header") %>
+  <title>Users</title>
+</head>
+<body>
+  <b>Users</b>
+  <form method="POST">
+    <% for (let i = 0; i < users.length; i++) { %>
+        <%- include("templates/user", {user: users[i]}) %><br />
+    <% } %>
+  </form>
+<%- include("footer") %>
