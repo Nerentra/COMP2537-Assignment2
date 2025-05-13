@@ -4,7 +4,11 @@
     <div class="list-group">
       <% for (let i = 0; i < users.length; i++) { %>
         <div class="list-group-item d-flex justify-content-between align-items-center">
-          <span><%- include("templates/user", {user: users[i]}) %></span>
+          <% if (user && user.email === users[i].email) { %>
+            <span><%- include("templates/user", {user: users[i], includeButton: false}) %></span>
+          <% } else { %>
+            <span><%- include("templates/user", {user: users[i], includeButton: true}) %></span>
+          <% } %>
         </div>
       <% } %>
     </div>

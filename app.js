@@ -54,6 +54,7 @@ const mongoStore = MongoStore.create({
 function loginUser(req, user) {
     req.session.user = {};
     req.session.user.name = user.name;
+    req.session.user.email = user.email;
     req.session.user.admin = user.admin ?? false;
 }
 
@@ -137,7 +138,7 @@ app.post("/signupSubmit", async (req, res) => {
             passwordHash,
         })
         .then(() => {
-            loginUser(req, { name });
+            loginUser(req, { name, email });
             res.redirect("/members");
         })
         .catch((err) => {
